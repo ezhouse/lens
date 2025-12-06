@@ -1,0 +1,28 @@
+<div class="post-grid">
+  <% if (posts && posts.length > 0) { %>
+    <% posts.forEach(function(post){ %>
+      <% 
+        // 确定图片路径：优先 index_img -> photos -> default_cover
+        var coverImg = theme.default_cover;
+        if (post.index_img) {
+          coverImg = post.index_img;
+        } else if (post.photos && post.photos.length > 0) {
+          coverImg = post.photos[0];
+        }
+      %>
+      <article class="grid-card">
+        <a href="<%- url_for(post.path) %>" class="card-image-link">
+          <!-- 关键修改：使用 url_for 包裹 coverImg -->
+          <div class="card-image" style="background-image: url('<%- url_for(coverImg) %>')"></div>
+        </a>
+        <div class="card-content">
+          <h3><a href="<%- url_for(post.path) %>"><%= post.title %></a></h3>
+          <div class="card-meta"><%= date(post.date, 'MMM DD, YYYY') %></div>
+          <p class="card-excerpt">
+            <%- strip_html(post.content).substring(0, 100) %>...
+          </p>
+        </div>
+      </article>
+    <% }) %>
+  <% } %>
+</div>

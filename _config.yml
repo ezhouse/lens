@@ -1,0 +1,13 @@
+# themes/lens/_config.yml
+menu:
+  Home: /
+  Archives: /archives/
+  Tags: /tags/ 
+  Links: /links/
+
+# 默认占位图 (建议在 source/images 下放入 default.jpg)
+default_cover: /img/ocean1.jpg
+
+# 社交链接 (可选)
+social:
+  github: https://github.com/

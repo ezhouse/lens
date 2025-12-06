@@ -1,0 +1,43 @@
+<!-- themes/lens/layout/archive.ejs -->
+<div class="archive-container" style="max-width: 800px; margin: 2rem auto; padding: 0 1rem;">
+  
+  <% var lastYear; %>
+  
+  <% page.posts.each(function(post){ %>
+    <% var currentYear = post.date.year(); %>
+    
+    <!-- 如果年份变化，显示年份标题 -->
+    <% if (lastYear !== currentYear) { %>
+      <h2 class="archive-year-header" style="margin: 3rem 0 1.5rem; border-bottom: 2px solid #eee; padding-bottom: 10px; font-size: 1.8rem; color: #333;">
+        <%= currentYear %>
+      </h2>
+      <% lastYear = currentYear; %>
+    <% } %>
+
+    <!-- 纯文字文章列表项 -->
+    <div class="archive-item" style="display: flex; align-items: baseline; margin-bottom: 1rem;">
+      <span class="archive-date" style="min-width: 80px; color: #999; font-family: monospace; font-size: 0.95rem;">
+        <%= date(post.date, 'MM-DD') %>
+      </span>
+      <a href="<%- url_for(post.path) %>" class="archive-link" style="font-size: 1.1rem; color: #333; text-decoration: none; border-bottom: 1px dashed #ccc;">
+        <%= post.title %>
+      </a>
+    </div>
+  <% }) %>
+
+  <!-- 归档页的分页器 -->
+  <nav class="pagination" style="margin-top: 3rem;">
+    <%- paginator({
+      prev_text: '&laquo; Prev',
+      next_text: 'Next &raquo;'
+    }) %>
+  </nav>
+</div>
+
+<!-- 简单的 CSS 悬停效果 -->
+<style>
+  .archive-link:hover {
+    color: var(--accent-color, #0078d4) !important;
+    border-bottom-style: solid !important;
+  }
+</style>

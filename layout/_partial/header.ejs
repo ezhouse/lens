@@ -1,0 +1,34 @@
+<!-- themes/lens/layout/_partial/header.ejs -->
+<header class="header">
+  <div class="header-container">
+    <!-- 左侧 Logo：链接到 About 页 -->
+    <a href="<%- url_for('/about/') %>" class="logo">
+      average Joe's blog
+    </a>
+
+    <!-- 移动端菜单按钮 -->
+    <div class="menu-toggle" id="menu-toggle">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div>
+
+    <!-- 导航菜单 -->
+    <nav class="nav-menu" id="nav-menu">
+      <!-- 1. 循环生成 _config.yml 里 menu 定义的菜单 -->
+      <% for (var name in theme.menu) { %>
+        <a href="<%- url_for(theme.menu[name]) %>" class="nav-link">
+          <%= name %>
+        </a>
+      <% } %>
+      
+      <!-- 2. (可选) 如果配置了 social.github，且没有在 menu 里重复添加，可以在这里显示 -->
+      <!-- 为了防止重复，建议您只在 _config.yml 的 menu 里管理所有链接，或者删除下面这段代码 -->
+      <% if (theme.social && theme.social.github && !theme.menu.Github) { %>
+        <a href="<%= theme.social.github %>" target="_blank" class="nav-link social-link">
+          GitHub
+        </a>
+      <% } %>
+    </nav>
+  </div>
+</header>

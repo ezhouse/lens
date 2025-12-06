@@ -1,0 +1,18 @@
+themes/lens/
+├── _config.yml
+├── readme.txt            <-- 1. 放在这里，不要放在 layout 里
+├── source/
+│   ├── css/
+│   │   └── style.css
+│   └── js/
+│       └── main.js
+└── layout/               <-- 2. 进入 layout 文件夹
+    ├── index.ejs
+    ├── post.ejs
+    ├── layout.ejs
+    └── _partial/         <-- 3. 必须创建这个名为 "_partial" 的文件夹！
+        ├── head.ejs
+        ├── header.ejs
+        ├── footer.ejs
+        ├── hero.ejs      <-- 4. hero.ejs 必须在这里
+        └── post-grid.ejs <-- 5. post-grid.ejs 必须在这里

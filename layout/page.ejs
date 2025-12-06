@@ -1,0 +1,123 @@
+<!-- themes/lens/layout/page.ejs -->
+<article class="post-detail">
+  
+  <!-- ============ 1. 普通页面逻辑 (例如 About) ============ -->
+  <% if (page.type !== 'tags') { %>
+    <div class="post-container" style="max-width: 800px; margin: 0 auto; background: #fff; padding: 2rem; border-radius: 8px;">
+      <header class="post-header">
+        <h1 class="post-title"><%= page.title %></h1>
+      </header>
+      <div class="post-content">
+        <%- page.content %>
+      </div>
+    </div>
+  <% } %>
+
+  <!-- ============ 2. Tags 页面专用逻辑 (筛选器布局) ============ -->
+  <% if (page.type === 'tags') { %>
+    <div class="tags-layout-container">
+      
+      <!-- [左侧] 标签侧边栏 -->
+      <aside class="tags-sidebar-col">
+        <!-- 这个标题现在通过 CSS 会在内部滚动时吸顶 -->
+        <h3 class="tags-col-title">Filter by Topic</h3>
+        
+        <ul class="tags-filter-list">
+          <!-- "All Posts" 按钮 -->
+          <li class="tag-filter-item active" onclick="filterTags('all', this)">
+            All Posts
+            <span class="tag-count"><%= site.posts.length %></span>
+          </li>
+          
+          <!-- 循环输出所有标签 (按名称排序) -->
+          <% site.tags.sort('name').each(function(tag){ %>
+            <li class="tag-filter-item" onclick="filterTags('<%= tag.name %>', this)">
+              <%= tag.name %>
+              <span class="tag-count"><%= tag.length %></span>
+            </li>
+          <% }) %>
+        </ul>
+      </aside>
+
+      <!-- [右侧] 文章列表区域 -->
+      <main class="tags-content-col">
+        <!-- 顶部动态标题 (CSS控制吸顶) -->
+        <div id="tag-results-header">Tags: All Posts</div>
+        
+        <div class="filtered-posts">
+          <% site.posts.sort('date', -1).each(function(post){ %>
+            <!-- 获取当前文章所有标签，拼成字符串 -->
+            <% 
+               var postTags = [];
+               if (post.tags && post.tags.length) {
+                 post.tags.forEach(function(t) { postTags.push(t.name); });
+               }
+               var tagString = postTags.join(','); 
+            %>
+            
+            <!-- data-tags 属性用于 JS 筛选 -->
+            <div class="filter-post-card" data-tags="<%= tagString %>">
+              <span class="filter-date"><%= date(post.date, 'YYYY-MM-DD') %></span>
+              <a href="<%- url_for(post.path) %>" class="filter-title"><%= post.title %></a>
+              <!-- 显示该文章的小标签 -->
+              <div class="filter-card-tags">
+                <% post.tags.forEach(function(t){ %>
+                  <span class="mini-tag">#<%= t.name %></span>
+                <% }) %>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+        
+        <!-- 无数据提示 -->
+        <div id="no-results" style="display:none; text-align:center; padding: 2rem; color: #999;">
+          No articles found for this tag.
+        </div>
+      </main>
+
+    </div>
+
+    <!-- 前端筛选脚本 -->
+    <script>
+      function filterTags(tagName, element) {
+        // 1. 更新左侧选中状态
+        var items = document.querySelectorAll('.tag-filter-item');
+        items.forEach(function(item) { item.classList.remove('active'); });
+        element.classList.add('active');
+
+        // 2. 更新右侧标题文字
+        var header = document.getElementById('tag-results-header');
+        if (tagName === 'all') {
+          header.innerText = 'Tags: All Posts';
+        } else {
+          header.innerText = 'Tags: ' + tagName;
+        }
+
+        // 3. 筛选文章显示/隐藏
+        var posts = document.querySelectorAll('.filter-post-card');
+        var visibleCount = 0;
+
+        posts.forEach(function(post) {
+          var tagsAttr = post.getAttribute('data-tags');
+          var tagsArray = tagsAttr ? tagsAttr.split(',') : [];
+
+          if (tagName === 'all' || tagsArray.includes(tagName)) {
+            // 恢复显示 (使用 flex 以匹配 CSS 中的定义)
+            post.style.display = 'flex';
+            visibleCount++;
+          } else {
+            post.style.display = 'none';
+          }
+        });
+
+        // 4. 处理无结果的情况
+        var noRes = document.getElementById('no-results');
+        noRes.style.display = (visibleCount === 0) ? 'block' : 'none';
+        
+        // 可选：每次点击后让右侧滚动回顶部 (如果列表很长)
+        // document.querySelector('.tags-content-col').scrollIntoView({ behavior: 'smooth' });
+      }
+    </script>
+  <% } %>
+
+</article>

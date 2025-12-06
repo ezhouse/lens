@@ -1,0 +1,612 @@
+/* themes/lens/source/css/style.css */
+
+/* =========================================
+   1. Variables & Reset (New Color Scheme)
+   ========================================= */
+:root {
+  /* PANTONE 15-5519 Turquoise 核心色 */
+  --accent-color: #45B8AC;  
+  
+  /* 基于核心色的深色变体（用于文字链接，保证可读性） */
+  --accent-dark: #2E8B82;   
+
+  /* 页面背景：不再是纯灰，而是非常淡的青色渐变 */
+  --bg-gradient-start: #f0fdfc;
+  --bg-gradient-end: #e0f2f1;
+
+  /* 卡片背景 */
+  --card-bg: #ffffff;
+  
+  /* 文字颜色 */
+  --text-primary: #2c3e50;   /* 深蓝灰，比纯黑更有质感 */
+  --text-secondary: #546e7a; /* 浅蓝灰 */
+  
+  /* 立体感核心：环境光阴影 */
+  /* 使用带青色的阴影，而不是纯黑阴影，会让卡片看起来通透 */
+  --shadow-sm: 0 4px 6px -1px rgba(69, 184, 172, 0.1), 0 2px 4px -1px rgba(69, 184, 172, 0.06);
+  --shadow-md: 0 10px 15px -3px rgba(69, 184, 172, 0.15), 0 4px 6px -2px rgba(69, 184, 172, 0.1);
+  --shadow-lg: 0 20px 25px -5px rgba(69, 184, 172, 0.2), 0 10px 10px -5px rgba(69, 184, 172, 0.1);
+  
+  --gap: 24px;       /* 稍微加大间距 */
+  --radius: 12px;    /* 更圆润的圆角 */
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  /* 漂亮的微渐变背景 */
+  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { text-decoration: none; color: inherit; transition: all 0.3s ease; }
+a:hover { color: var(--accent-color); }
+img { max-width: 100%; display: block; }
+h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-primary); }
+
+/* =========================================
+   2. Header (Glassmorphism Effect)
+   ========================================= */
+.header {
+  /* 毛玻璃效果：半透明白 + 模糊 */
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px); 
+  -webkit-backdrop-filter: blur(12px);
+  
+  box-shadow: 0 1px 0 rgba(0,0,0,0.05); /* 极细的分割线 */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.2rem 2rem 10px 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 800; /* 加粗 */
+  color: var(--accent-dark); /* 使用深青色 */
+  line-height: 1; 
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 0;
+}
+
+.nav-menu a {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  position: relative;
+  padding-bottom: 5px;
+}
+
+/* 下划线动画 */
+.nav-menu a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 3px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--accent-color);
+  border-radius: 2px;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-menu a:hover { color: var(--accent-color); }
+.nav-menu a:hover::after { width: 100%; }
+
+/* Mobile Toggle */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+  align-self: center;
+}
+.menu-toggle .bar {
+  width: 25px;
+  height: 3px;
+  background-color: var(--text-primary);
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+/* =========================================
+   3. Main Container
+   ========================================= */
+.main-container {
+  max-width: 1200px;
+  margin: 2.5rem auto;
+  padding: 0 1.5rem;
+  min-height: calc(100vh - 200px);
+}
+
+/* =========================================
+   4. Hero Section (3D Cards)
+   ========================================= */
+.hero-section {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--gap);
+  margin-bottom: 3.5rem;
+  height: 600px; 
+}
+
+/* 左侧大图卡片 */
+.hero-main {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  /* 强立体感阴影 */
+  box-shadow: var(--shadow-md);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hero-main:hover {
+  transform: translateY(-5px); /* 上浮 */
+  box-shadow: var(--shadow-lg); /* 阴影加深 */
+}
+.hero-bg {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s;
+}
+.hero-main:hover .hero-bg { transform: scale(1.08); }
+
+.hero-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 2.5rem;
+  /* 渐变遮罩优化，更平滑 */
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
+  color: #fff;
+  box-sizing: border-box;
+}
+.hero-tag { 
+  background: var(--accent-color); 
+  padding: 5px 10px; 
+  font-size: 0.8rem; 
+  border-radius: 6px; 
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+.hero-content h1 { 
+  margin: 12px 0; 
+  font-size: 2.2rem; 
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+/* 右侧侧边栏 */
+.hero-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  padding: 5px; /* 给 hover 阴影留空间 */
+}
+.hero-sidebar::-webkit-scrollbar { width: 5px; }
+.hero-sidebar::-webkit-scrollbar-thumb { background: rgba(69, 184, 172, 0.3); border-radius: 10px; }
+
+.sidebar-item {
+  display: flex;
+  background: var(--card-bg);
+  padding: 12px;
+  border-radius: var(--radius);
+  align-items: center;
+  /* 默认微弱阴影 */
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255,255,255,0.5); /* 微妙的边框 */
+}
+.sidebar-item:hover { 
+  transform: translateX(-5px) scale(1.02); 
+  box-shadow: var(--shadow-md); 
+  border-color: var(--accent-color);
+  z-index: 1;
+}
+.sidebar-thumb {
+  width: 80px;
+  height: 60px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 6px;
+  flex-shrink: 0;
+  margin-right: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.sidebar-info h4 { 
+  margin: 0 0 5px 0; 
+  font-size: 0.95rem; 
+  line-height: 1.4; 
+  color: var(--text-primary);
+}
+
+/* =========================================
+   5. Post Grid (Floating Cards)
+   ========================================= */
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.grid-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255,255,255,0.8);
+}
+.grid-card:hover { 
+  transform: translateY(-8px); /* 悬浮感更强 */
+  box-shadow: var(--shadow-lg); 
+}
+
+.card-image-link { display: block; overflow: hidden; }
+.card-image {
+  height: 190px;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s;
+}
+.grid-card:hover .card-image { transform: scale(1.1); }
+
+.card-content { padding: 1.8rem; display: flex; flex-direction: column; flex-grow: 1; }
+.card-content h3 { margin: 0 0 10px 0; font-size: 1.25rem; font-weight: 700; }
+.card-content h3 a { color: var(--text-primary); transition: color 0.2s; }
+.card-content h3 a:hover { color: var(--accent-color); }
+.card-meta { 
+  font-size: 0.8rem; 
+  color: var(--accent-color); 
+  font-weight: 600; 
+  margin-bottom: 12px; 
+  text-transform: uppercase;
+}
+
+/* =========================================
+   6. Post Detail Page
+   ========================================= */
+.post-detail { background: transparent; }
+.post-header-image {
+  width: 100%;
+  height: 400px;
+  background-size: cover;
+  background-position: center;
+  margin-bottom: -100px; 
+  position: relative;
+  z-index: 0;
+  mask-image: linear-gradient(to bottom, black 0%, transparent 100%); /* 图片底部渐变消失 */
+  -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+}
+.post-header-image:empty { display: none; margin-bottom: 0; }
+
+.post-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.95); /* 微微透明 */
+  padding: 3.5rem;
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  z-index: 1;
+  backdrop-filter: blur(5px);
+}
+
+.post-header { text-align: center; margin-bottom: 3rem; }
+.post-title { font-size: 2.6rem; margin-bottom: 1rem; color: #2c3e50; font-weight: 800;}
+.post-meta { color: var(--text-secondary); font-size: 0.95rem; font-weight: 500; }
+
+.post-content { font-size: 1.15rem; line-height: 1.9; color: #34495e; }
+.post-content img { max-width: 100%; border-radius: 8px; margin: 1.5rem 0; box-shadow: var(--shadow-sm); }
+.post-content h2 { 
+  font-size: 1.8rem; 
+  margin-top: 2.5rem; 
+  color: var(--accent-dark);
+  border-bottom: 2px solid rgba(69, 184, 172, 0.2); 
+  padding-bottom: 10px; 
+}
+.post-content a { 
+  color: var(--accent-color); 
+  border-bottom: 2px solid rgba(69, 184, 172, 0.3); 
+  font-weight: 500;
+}
+.post-content a:hover { background: rgba(69, 184, 172, 0.1); }
+.post-content blockquote {
+  border-left: 5px solid var(--accent-color);
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  color: #555;
+  background: #f0fdfc; /* 极淡的青色背景 */
+  border-radius: 0 8px 8px 0;
+}
+
+/* =========================================
+   7. Tags Filter Layout (The New Style)
+   ========================================= */
+/* ================= Tags Filter Layout ================= */
+.tags-layout-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  padding: 1rem 0;
+}
+
+/* [左侧] 侧边栏 (Sidebar) */
+.tags-sidebar-col {
+  width: 250px;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius);
+  
+  /* 侧边栏吸顶逻辑 */
+  position: sticky;
+  top: 90px; /* 距离顶部导航栏的间距 */
+  max-height: calc(100vh - 120px);
+  
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.6);
+}
+
+.tags-col-title {
+  margin: 0;
+  padding: 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  background: rgba(255,255,255,0.95); /* 防止内容穿透 */
+  
+  /* 标题在侧边栏内部吸顶 */
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.tags-filter-list {
+  padding: 0.8rem;
+  overflow-y: auto; /* 列表滚动 */
+}
+.tags-filter-list::-webkit-scrollbar { width: 4px; }
+.tags-filter-list::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+
+.tag-filter-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+.tag-filter-item:hover { background: #e0f2f1; color: var(--accent-dark); }
+.tag-filter-item.active { 
+  background: var(--accent-color); 
+  color: #fff; 
+  box-shadow: 0 4px 10px rgba(69, 184, 172, 0.4);
+}
+.tag-count {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  background: rgba(0,0,0,0.05);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+.tag-filter-item.active .tag-count { background: rgba(255,255,255,0.25); color: #fff; opacity: 1; }
+
+/* [右侧] 内容区域 (Content) */
+.tags-content-col {
+  flex-grow: 1;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius);
+  min-height: 400px;
+  padding: 0; /* 去掉 Padding，方便 Header 吸顶 */
+  overflow: visible;
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(255,255,255,0.6);
+}
+
+#tag-results-header {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent-dark);
+  background: rgba(255, 255, 255, 0.95);
+  margin: 0;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  border-radius: var(--radius) var(--radius) 0 0;
+  
+  /* 列表标题吸顶逻辑 */
+  position: sticky;
+  top: 80px; /* 对应 .header 的高度 */
+  z-index: 20;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+  backdrop-filter: blur(10px);
+}
+
+.filtered-posts { padding: 0 2rem 2rem 2rem; }
+
+/* 文章卡片 (Grid 布局解决重叠问题) */
+.filter-post-card {
+  display: grid;
+  /* 定义两列：日期列固定宽度 110px，标题列自动填充 */
+  grid-template-columns: 110px 1fr; 
+  align-items: baseline;
+  padding: 14px 0;
+  border-bottom: 1px dashed rgba(0,0,0,0.1);
+  
+  /* 关键：拉开日期和标题的间距 */
+  column-gap: 30px; 
+}
+
+.filter-date { 
+  font-size: 0.85rem; 
+  color: #95a5a6; 
+  font-family: 'Roboto Mono', monospace; 
+  text-align: right; /* 日期靠右对齐，整齐划一 */
+  white-space: nowrap;
+}
+
+.filter-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.4;
+  grid-column: 2; /* 放在第2列 */
+}
+
+.filter-card-tags {
+  grid-column: 2; /* 放在第2列 (标题下方) */
+  margin-top: 6px;
+}
+
+.mini-tag {
+  font-size: 0.75rem;
+  color: var(--accent-color);
+  margin-right: 8px;
+  background: #e0f2f1;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+  display: inline-block;
+  margin-top: 2px;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .tags-layout-container { flex-direction: column; gap: 20px; }
+  .tags-sidebar-col { width: 100%; position: static; max-height: none; padding: 0; }
+  .tags-filter-list { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px; }
+  .tag-filter-item { width: auto; background: #f0f2f5; }
+  
+  #tag-results-header { position: static; padding: 1.2rem; }
+  
+  /* 移动端恢复单列布局 */
+  .filter-post-card {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+  .filter-date { text-align: left; font-size: 0.8rem; }
+  .filter-title { grid-column: 1; }
+  .filter-card-tags { grid-column: 1; }
+}
+   
+
+
+
+/* =========================================
+   8. Archive & Pagination
+   ========================================= */
+.archive-container h2.archive-year-header {
+  font-weight: 300;
+  color: var(--accent-dark);
+  position: relative;
+  display: inline-block;
+}
+
+.pagination { margin-top: 4rem; text-align: center; }
+.pagination .page-number, .pagination .extend {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #fff;
+  margin: 0 6px;
+  border-radius: 50px; /* 胶囊形状 */
+  box-shadow: var(--shadow-sm);
+  color: var(--text-secondary);
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+.pagination .page-number:hover, .pagination .extend:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  color: var(--accent-color);
+}
+.pagination .current { 
+  background: var(--accent-color); 
+  color: #fff; 
+  box-shadow: 0 4px 10px rgba(69, 184, 172, 0.4);
+}
+
+/* =========================================
+   9. Footer
+   ========================================= */
+.footer {
+  margin-top: 5rem;
+  padding: 3rem 0;
+  background: #fff;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  text-align: center;
+  color: #95a5a6;
+}
+.footer a { color: var(--text-secondary); font-weight: 500; }
+
+/* =========================================
+   10. Responsive
+   ========================================= */
+@media (max-width: 900px) {
+  .hero-section { grid-template-columns: 1fr; height: auto; }
+  .hero-main { height: 400px; }
+  .hero-sidebar { max-height: 400px; padding: 5px; }
+}
+
+@media (max-width: 768px) {
+  .header-container { padding: 1rem; align-items: center; }
+  .menu-toggle { display: flex; }
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(255,255,255,0.98);
+    flex-direction: column;
+    padding: 10px 0;
+    box-shadow: var(--shadow-lg);
+    gap: 0;
+    backdrop-filter: blur(15px);
+  }
+  .nav-menu.active { display: flex; }
+  .nav-menu a { padding: 15px 2rem; border-bottom: 1px solid rgba(0,0,0,0.03); }
+  
+  .tags-layout-container { flex-direction: column; gap: 20px; }
+  .tags-sidebar-col { width: 100%; position: static; max-height: none; padding: 0; }
+  .tags-filter-list { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px; }
+  .tag-filter-item { width: auto; background: #f0f2f5; }
+  #tag-results-header { position: static; padding: 1.2rem; }
+  
+  .post-container { padding: 1.5rem; }
+  .post-title { font-size: 2rem; }
+}

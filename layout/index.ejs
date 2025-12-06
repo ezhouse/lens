@@ -1,0 +1,43 @@
+<!-- themes/lens/layout/index.ejs -->
+<% if (page.current === 1) { %>
+  <!-- ============ 首页 (第1页) ============ -->
+  
+  <!-- 1. 显示特色 1+5 Hero 布局 -->
+  <!-- 这里的 site_posts 传递的是全局最新的文章，用于 Hero 显示 -->
+  <%- partial('_partial/hero', { site_posts: site.posts }) %>
+  
+  <!-- 2. 首页下方的网格 -->
+  <!-- 
+     Hero 区域已经展示了最新的 6 篇文章。
+     page.posts 是当前页加载的所有文章 (例如 12 篇)。
+     我们需要把前 6 篇切掉 (slice)，只在网格里显示剩下的。
+  -->
+  <% var remainingPosts = page.posts.slice(8); %>
+  
+  <!-- 只有当还有剩余文章时才显示分割线和网格 -->
+  <% if (remainingPosts.length > 0) { %>
+    <div class="section-divider" style="margin: 3rem 0 1.5rem; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+      <h3 style="margin: 0; color: #666; font-size: 1.2rem;">More Stories</h3>
+    </div>
+    <%- partial('_partial/post-grid', { posts: remainingPosts }) %>
+  <% } %>
+  
+<% } else { %>
+  <!-- ============ 第2页及以后 ============ -->
+  
+  <!-- 这里删除了原本显示 "Page X" 的 header 代码 -->
+  
+  <!-- 直接显示纯网格列表 -->
+  <div style="margin-top: 2rem;"></div> <!-- 加一点顶部间距 -->
+  <%- partial('_partial/post-grid', { posts: page.posts }) %>
+  
+<% } %>
+
+<!-- ============ 分页导航 ============ -->
+<nav class="pagination">
+  <%- paginator({
+    prev_text: '&laquo; Prev',
+    next_text: 'Next &raquo;',
+    escape: false
+  }) %>
+</nav>

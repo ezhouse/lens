@@ -1,0 +1,43 @@
+<% 
+  // 获取最新的8篇文章 (1篇大图 + 7篇侧边列表)
+  var heroPosts = site.posts.sort('date', -1).limit(8).toArray();
+  var mainPost = heroPosts.length > 0 ? heroPosts[0] : {};
+  var sidePosts = heroPosts.length > 1 ? heroPosts.slice(1) : [];
+
+  // 定义获取封面的逻辑函数
+  // 逻辑：index_img > photos > default_cover
+  function getCover(post) {
+    if (post.index_img) return post.index_img;
+    if (post.photos && post.photos.length > 0) return post.photos[0];
+    return theme.default_cover;
+  }
+%>
+
+<section class="hero-section">
+  <!-- 左侧：主要特色文章 -->
+  <% if (mainPost && mainPost.path) { %>
+  <article class="hero-main" onclick="location.href='<%- url_for(mainPost.path) %>'">
+    <!-- 关键修改：使用 url_for 包裹图片路径 -->
+    <div class="hero-bg" style="background-image: url('<%- url_for(getCover(mainPost)) %>')"></div>
+    <div class="hero-content">
+      <span class="hero-tag">Featured</span>
+      <h1><%= mainPost.title %></h1>
+      <p class="hero-excerpt"><%- strip_html(mainPost.content).substring(0, 150) %>...</p>
+    </div>
+  </article>
+  <% } %>
+
+  <!-- 右侧：侧边栏列表 -->
+  <aside class="hero-sidebar">
+    <% sidePosts.forEach(function(post){ %>
+      <a href="<%- url_for(post.path) %>" class="sidebar-item">
+        <!-- 关键修改：使用 url_for 包裹图片路径 -->
+        <div class="sidebar-thumb" style="background-image: url('<%- url_for(getCover(post)) %>')"></div>
+        <div class="sidebar-info">
+          <h4><%= post.title %></h4>
+          <span class="sidebar-date"><%= date(post.date, 'MMM DD, YYYY') %></span>
+        </div>
+      </a>
+    <% }) %>
+  </aside>
+</section>

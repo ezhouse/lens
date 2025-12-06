@@ -1,0 +1,35 @@
+<div class="archive-container" style="max-width: 800px; margin: 2rem auto; padding: 0 1rem;">
+  
+  <!-- 顶部标题：显示当前选中的标签 -->
+  <div class="tag-header" style="text-align: center; margin-bottom: 3rem;">
+    <h1 style="font-weight: 300; color: #333;">Tag: <span style="color: var(--accent-color); font-weight: bold;"><%= page.tag %></span></h1>
+  </div>
+
+  <!-- 文章列表 (复用 Archive 的纯文字样式) -->
+  <% page.posts.each(function(post){ %>
+    <div class="archive-item" style="display: flex; align-items: baseline; margin-bottom: 1rem;">
+      <span class="archive-date" style="min-width: 100px; color: #999; font-family: monospace; font-size: 0.95rem;">
+        <%= date(post.date, 'YYYY-MM-DD') %>
+      </span>
+      <a href="<%- url_for(post.path) %>" class="archive-link" style="font-size: 1.1rem; color: #333; text-decoration: none; border-bottom: 1px dashed #ccc;">
+        <%= post.title %>
+      </a>
+    </div>
+  <% }) %>
+
+  <!-- 分页器 -->
+  <nav class="pagination" style="margin-top: 3rem;">
+    <%- paginator({
+      prev_text: '&laquo; Prev',
+      next_text: 'Next &raquo;'
+    }) %>
+  </nav>
+</div>
+
+<!-- 复用样式 -->
+<style>
+  .archive-link:hover {
+    color: var(--accent-color, #0078d4) !important;
+    border-bottom-style: solid !important;
+  }
+</style>

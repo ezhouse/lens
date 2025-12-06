@@ -1,0 +1,49 @@
+<!-- themes/lens/layout/_partial/footer.ejs -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="copyright">
+      &copy; <%= date(new Date(), 'YYYY') %> 
+      <strong><%= config.author || config.title %></strong>.
+    </div>
+    
+    <div class="powered-by">
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> 
+      | Theme <a href="https://github.com/yourname/hexo-theme-lens" target="_blank">Lens</a>
+    </div>
+    
+    <!-- 社交链接区域 (可选) -->
+    <% if (theme.social) { %>
+      <div class="footer-social">
+        <% for (var type in theme.social) { %>
+          <a href="<%= theme.social[type] %>" target="_blank" title="<%= type %>">
+            <%= type %>
+          </a>
+        <% } %>
+      </div>
+    <% } %>
+  </div>
+</footer>
+
+<style>
+/* 内联样式，或者您可以将其移动到 style.css */
+.footer {
+  margin-top: 4rem;
+  padding: 2rem 0;
+  background: #fff;
+  border-top: 1px solid #eee;
+  text-align: center;
+  color: #666;
+  font-size: 0.9rem;
+}
+.footer a {
+  color: var(--accent-color, #0078d4);
+  text-decoration: none;
+}
+.footer-social {
+  margin-top: 10px;
+}
+.footer-social a {
+  margin: 0 10px;
+  text-transform: capitalize;
+}
+</style>
