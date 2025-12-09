@@ -9,5 +9,5 @@ menu:
 default_cover: /img/ocean1.jpg
 
 # 社交链接 (可选)
-social:
-  github: https://github.com/
+# social:
+#   github: https://github.com/

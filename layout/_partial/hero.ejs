@@ -19,8 +19,8 @@
   <article class="hero-main" onclick="location.href='<%- url_for(mainPost.path) %>'">
     <!-- 关键修改：使用 url_for 包裹图片路径 -->
     <div class="hero-bg" style="background-image: url('<%- url_for(getCover(mainPost)) %>')"></div>
+    <span class="hero-tag">Featured</span>
     <div class="hero-content">
-      <span class="hero-tag">Featured</span>
       <h1><%= mainPost.title %></h1>
       <p class="hero-excerpt"><%- strip_html(mainPost.content).substring(0, 150) %>...</p>
     </div>
@@ -41,3 +41,8 @@
     <% }) %>
   </aside>
 </section>
+
+<!-- 移动端：把侧边的第2~8篇作为普通的文章网格显示（在桌面端保持侧栏） -->
+<div class="hero-mobile-sideposts" aria-hidden="true">
+  <%- partial('_partial/post-grid', { posts: sidePosts }) %>
+</div>

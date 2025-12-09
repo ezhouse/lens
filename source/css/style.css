@@ -1,40 +1,34 @@
 /* themes/lens/source/css/style.css */
 
 /* =========================================
-   1. Variables & Reset (New Color Scheme)
+   1. Variables & Reset (Turquoise Theme)
    ========================================= */
 :root {
-  /* PANTONE 15-5519 Turquoise 核心色 */
-  --accent-color: #45B8AC;  
-  
-  /* 基于核心色的深色变体（用于文字链接，保证可读性） */
-  --accent-dark: #2E8B82;   
+  /* PANTONE 15-5519 Turquoise */
+  --accent-color: #0e58a1;  
+  --accent-dark: #2c8279;   
 
-  /* 页面背景：不再是纯灰，而是非常淡的青色渐变 */
+  /* Background Gradients */
   --bg-gradient-start: #f0fdfc;
-  --bg-gradient-end: #e0f2f1;
+  --bg-gradient-end: #e0e9f2;
 
-  /* 卡片背景 */
+  /* Components */
   --card-bg: #ffffff;
+  --text-primary: #2c3e50;
+  --text-secondary: #546e7a;
   
-  /* 文字颜色 */
-  --text-primary: #2c3e50;   /* 深蓝灰，比纯黑更有质感 */
-  --text-secondary: #546e7a; /* 浅蓝灰 */
+  /* Colored Shadows (Stereoscopic Effect) */
+  --shadow-sm: 0 6px 12px -2px rgba(69, 184, 172, 0.15), 0 3px 7px -2px rgba(69, 184, 172, 0.1);
+  --shadow-md: 0 15px 25px -5px rgba(69, 184, 172, 0.25), 0 6px 10px -3px rgba(69, 184, 172, 0.15);
+  --shadow-lg: 0 30px 40px -8px rgba(69, 184, 172, 0.3), 0 15px 20px -8px rgba(69, 184, 172, 0.15);
   
-  /* 立体感核心：环境光阴影 */
-  /* 使用带青色的阴影，而不是纯黑阴影，会让卡片看起来通透 */
-  --shadow-sm: 0 4px 6px -1px rgba(69, 184, 172, 0.1), 0 2px 4px -1px rgba(69, 184, 172, 0.06);
-  --shadow-md: 0 10px 15px -3px rgba(69, 184, 172, 0.15), 0 4px 6px -2px rgba(69, 184, 172, 0.1);
-  --shadow-lg: 0 20px 25px -5px rgba(69, 184, 172, 0.2), 0 10px 10px -5px rgba(69, 184, 172, 0.1);
-  
-  --gap: 24px;       /* 稍微加大间距 */
-  --radius: 12px;    /* 更圆润的圆角 */
+  --gap: 24px;
+  --radius: 12px;
 }
 
 body {
   margin: 0;
   font-family: 'Roboto', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-  /* 漂亮的微渐变背景 */
   background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
   color: var(--text-primary);
   line-height: 1.6;
@@ -48,15 +42,13 @@ img { max-width: 100%; display: block; }
 h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-primary); }
 
 /* =========================================
-   2. Header (Glassmorphism Effect)
+   2. Header (Glassmorphism & Alignment)
    ========================================= */
 .header {
-  /* 毛玻璃效果：半透明白 + 模糊 */
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px); 
   -webkit-backdrop-filter: blur(12px);
-  
-  box-shadow: 0 1px 0 rgba(0,0,0,0.05); /* 极细的分割线 */
+  box-shadow: 0 1px 0 rgba(0,0,0,0.05);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -66,6 +58,7 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
 .header-container {
   max-width: 1200px;
   margin: 0 auto;
+  /* Left/Right align + Baseline align */
   padding: 1.2rem 2rem 10px 2rem;
   display: flex;
   justify-content: space-between;
@@ -74,12 +67,21 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
 
 .logo {
   font-size: 1.8rem;
-  font-weight: 800; /* 加粗 */
-  color: var(--accent-dark); /* 使用深青色 */
+  font-weight: 800;
+  color: var(--accent-dark);
   line-height: 1; 
   text-decoration: none;
   letter-spacing: -0.5px;
+  display: inline-block;
+  transition: transform 0.25s cubic-bezier(0.2,0.8,0.2,1), text-shadow 0.25s;
 }
+
+.logo:hover {
+  transform: translateY(-4px) scale(1.02);
+  text-shadow: 0 10px 24px rgba(14,88,161,0.12);
+}
+
+.logo:active { transform: translateY(-2px) scale(1.01); }
 
 .nav-menu {
   display: flex;
@@ -95,7 +97,6 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
   padding-bottom: 5px;
 }
 
-/* 下划线动画 */
 .nav-menu a::after {
   content: '';
   position: absolute;
@@ -108,7 +109,18 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .nav-menu a:hover { color: var(--accent-color); }
-.nav-menu a:hover::after { width: 100%; }
+
+/* 移除默认的下划线/底部扩展效果，改为统一的跳动（translateY）效果 */
+.nav-menu a::after { display: none; }
+.nav-menu a {
+  transition: transform 0.22s cubic-bezier(0.2,0.8,0.2,1), color 0.22s;
+  will-change: transform;
+}
+.nav-menu a:hover {
+  transform: translateY(-4px) scale(1.02);
+  text-decoration: none;
+  box-shadow: 0 10px 18px rgba(14,88,161,0.06);
+}
 
 /* Mobile Toggle */
 .menu-toggle {
@@ -137,38 +149,54 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
 }
 
 /* =========================================
-   4. Hero Section (3D Cards)
+   4. Hero Section (1+7 Layout)
    ========================================= */
 .hero-section {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: var(--gap);
   margin-bottom: 3.5rem;
-  height: 600px; 
+  height: auto;
+  align-items: start;
 }
 
-/* 左侧大图卡片 */
+/* 移动端侧列表容器，默认隐藏，只在小屏显示 */
+.hero-mobile-sideposts { display: none; }
+
+/* Left Card */
 .hero-main {
   position: relative;
+  min-height: 520px;
   border-radius: var(--radius);
   overflow: hidden;
   cursor: pointer;
-  /* 强立体感阴影 */
   box-shadow: var(--shadow-md);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .hero-main:hover {
-  transform: translateY(-5px); /* 上浮 */
-  box-shadow: var(--shadow-lg); /* 阴影加深 */
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
 }
 .hero-bg {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  inset: 0; /* top:0; right:0; bottom:0; left:0 */
   background-size: cover;
   background-position: center;
   transition: transform 0.6s;
+  z-index: 0;
+}
+.hero-bg {
+  /* 占位色和渐显：初始透明，加载完成后添加 .is-loaded 变为不透明 */
+  background-color: #e9f7f6; /* 轻微的占位背景颜色 */
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out, transform 0.6s;
+}
+.hero-bg.is-loaded {
+  opacity: 1;
 }
 .hero-main:hover .hero-bg { transform: scale(1.08); }
+
+.hero-content { z-index: 1; }
 
 .hero-content {
   position: absolute;
@@ -176,12 +204,16 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
   left: 0;
   width: 100%;
   padding: 2.5rem;
-  /* 渐变遮罩优化，更平滑 */
-  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
+  /* 使用较轻的底部渐变作为辅助遮罩，尽量保留背景图细节 */
+  background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.35) 60%, transparent 100%);
   color: #fff;
   box-sizing: border-box;
 }
 .hero-tag { 
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 2;
   background: var(--accent-color); 
   padding: 5px 10px; 
   font-size: 0.8rem; 
@@ -194,17 +226,25 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
 }
 .hero-content h1 { 
   margin: 12px 0; 
-  font-size: 2.2rem; 
-  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  font-size: 2.4rem; 
+  font-weight: 800;
+  color: #ffffff;
+  /* 在标题后添加局部半透明背景，配合描边与阴影，增强可读性且不掩盖整张图片 */
+  display: inline-block;
+  padding: 6px 12px;
+  background: rgba(0,0,0,0.38);
+  border-radius: 6px;
+  -webkit-text-stroke: 0.5px rgba(0,0,0,0.6);
+  text-shadow: 0 4px 18px rgba(0,0,0,0.65), 0 1px 0 rgba(255,255,255,0.03);
 }
 
-/* 右侧侧边栏 */
+/* Right Sidebar */
 .hero-sidebar {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  overflow-y: auto;
-  padding: 5px; /* 给 hover 阴影留空间 */
+  gap: 8px;
+  overflow: visible;
+  padding: 4px;
 }
 .hero-sidebar::-webkit-scrollbar { width: 5px; }
 .hero-sidebar::-webkit-scrollbar-thumb { background: rgba(69, 184, 172, 0.3); border-radius: 10px; }
@@ -212,13 +252,12 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
 .sidebar-item {
   display: flex;
   background: var(--card-bg);
-  padding: 12px;
+  padding: 8px;
   border-radius: var(--radius);
   align-items: center;
-  /* 默认微弱阴影 */
   box-shadow: var(--shadow-sm);
-  transition: all 0.3s ease;
-  border: 1px solid rgba(255,255,255,0.5); /* 微妙的边框 */
+  transition: all 0.22s ease;
+  border: 1px solid rgba(255,255,255,0.5);
 }
 .sidebar-item:hover { 
   transform: translateX(-5px) scale(1.02); 
@@ -227,21 +266,28 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
   z-index: 1;
 }
 .sidebar-thumb {
-  width: 80px;
-  height: 60px;
+  width: 64px;
+  height: 48px;
   background-size: cover;
   background-position: center;
   border-radius: 6px;
   flex-shrink: 0;
-  margin-right: 15px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-right: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
 }
 .sidebar-info h4 { 
-  margin: 0 0 5px 0; 
-  font-size: 0.95rem; 
-  line-height: 1.4; 
+  margin: 0 0 4px 0; 
+  font-size: 0.9rem; 
+  line-height: 1.2; 
   color: var(--text-primary);
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+.sidebar-date { font-size: 0.75rem; color: #95a5a6; }
 
 /* =========================================
    5. Post Grid (Floating Cards)
@@ -263,7 +309,7 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
   border: 1px solid rgba(255,255,255,0.8);
 }
 .grid-card:hover { 
-  transform: translateY(-8px); /* 悬浮感更强 */
+  transform: translateY(-8px); 
   box-shadow: var(--shadow-lg); 
 }
 
@@ -287,6 +333,12 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
   margin-bottom: 12px; 
   text-transform: uppercase;
 }
+.card-excerpt {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
 
 /* =========================================
    6. Post Detail Page
@@ -300,7 +352,7 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
   margin-bottom: -100px; 
   position: relative;
   z-index: 0;
-  mask-image: linear-gradient(to bottom, black 0%, transparent 100%); /* 图片底部渐变消失 */
+  mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
   -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
 }
 .post-header-image:empty { display: none; margin-bottom: 0; }
@@ -308,7 +360,7 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
 .post-container {
   max-width: 800px;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.95); /* 微微透明 */
+  background: rgba(255, 255, 255, 0.95);
   padding: 3.5rem;
   border-radius: 16px;
   box-shadow: var(--shadow-lg);
@@ -335,20 +387,93 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
   border-bottom: 2px solid rgba(69, 184, 172, 0.3); 
   font-weight: 500;
 }
-.post-content a:hover { background: rgba(69, 184, 172, 0.1); }
 .post-content blockquote {
   border-left: 5px solid var(--accent-color);
   margin: 1.5rem 0;
   padding: 1rem 1.5rem;
   color: #555;
-  background: #f0fdfc; /* 极淡的青色背景 */
+  background: #f0fdfc;
   border-radius: 0 8px 8px 0;
 }
 
 /* =========================================
-   7. Tags Filter Layout (The New Style)
+   7. Post Navigation (Prev/Next)
    ========================================= */
-/* ================= Tags Filter Layout ================= */
+
+.post-nav {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  /* border-top: 1px solid rgba(0,0,0,0.05);  <-- 边框控制 */
+  border-top: none; /* <-- 或者直接设置为 none */
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  overflow: hidden; /* 防止溢出 */
+}
+
+.nav-item {
+  flex: 1;
+  max-width: 48%;
+  min-width: 0; /* 关键：允许Flex子项缩小 */
+}
+
+.nav-next { text-align: right; }
+
+.nav-item a {
+  display: block;
+  text-decoration: none;
+  padding: 15px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  /* border: 1px solid rgba(0,0,0,0.02); <-- 边框 */
+  border: none; /* <-- 或者直接设置为 none */
+  
+  transition: all 0.2s ease-out; /* 已有的 transition，但建议加上 ease-out 让效果更自然 */
+  transform: translateY(0); /* 初始状态，明确不移动，为hover做准备 */
+
+  overflow: hidden; 
+}
+
+.nav-item a:hover {
+  background: #fff;
+  /* border-color: var(--accent-color); */
+  box-shadow: var(--shadow-sm);
+  
+  /* 添加跳动效果的核心代码 */
+  transform: translateY(-5px); /* 向上移动5px */
+}
+
+.nav-label {
+  display: block;
+  font-size: 0.75rem; /* 字号缩小 */
+  color: #95a5a6;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1px;
+  white-space: nowrap; /* 强制不换行 */
+}
+
+.nav-title {
+  display: block;
+  font-size: 0.95rem; /* 字号缩小 */
+  color: var(--text-primary);
+  font-weight: 600;
+  line-height: 1.3;
+  
+  /* 强制单行显示，超出显示省略号 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-item a:hover .nav-title { color: var(--accent-color); }
+  
+
+
+/* =========================================
+   8. Tags Filter Layout (Two Cols + Grid)
+   ========================================= */
 .tags-layout-container {
   max-width: 1000px;
   margin: 0 auto;
@@ -358,18 +483,15 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
   padding: 1rem 0;
 }
 
-/* [左侧] 侧边栏 (Sidebar) */
+/* Sidebar */
 .tags-sidebar-col {
   width: 250px;
   flex-shrink: 0;
   background: rgba(255, 255, 255, 0.9);
   border-radius: var(--radius);
-  
-  /* 侧边栏吸顶逻辑 */
   position: sticky;
-  top: 90px; /* 距离顶部导航栏的间距 */
+  top: 90px;
   max-height: calc(100vh - 120px);
-  
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -385,9 +507,7 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
   font-weight: 700;
   color: var(--text-secondary);
   border-bottom: 1px solid rgba(0,0,0,0.05);
-  background: rgba(255,255,255,0.95); /* 防止内容穿透 */
-  
-  /* 标题在侧边栏内部吸顶 */
+  background: rgba(255,255,255,0.95);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -395,7 +515,7 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
 
 .tags-filter-list {
   padding: 0.8rem;
-  overflow-y: auto; /* 列表滚动 */
+  overflow-y: auto;
 }
 .tags-filter-list::-webkit-scrollbar { width: 4px; }
 .tags-filter-list::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
@@ -407,15 +527,20 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
   cursor: pointer;
   border-radius: 8px;
   color: var(--text-secondary);
-  transition: all 0.2s;
+  transition: all 0.25s cubic-bezier(0.2,0.8,0.2,1);
   font-size: 0.95rem;
   margin-bottom: 4px;
 }
-.tag-filter-item:hover { background: #e0f2f1; color: var(--accent-dark); }
+.tag-filter-item:hover { 
+  background: rgba(14, 88, 161, 0.06);
+  color: var(--accent-dark);
+  transform: translateX(6px);
+  box-shadow: var(--shadow-sm);
+}
 .tag-filter-item.active { 
   background: var(--accent-color); 
   color: #fff; 
-  box-shadow: 0 4px 10px rgba(69, 184, 172, 0.4);
+  box-shadow: 0 4px 10px rgba(69, 184, 172, 0.4); 
 }
 .tag-count {
   font-size: 0.75rem;
@@ -426,13 +551,13 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
 }
 .tag-filter-item.active .tag-count { background: rgba(255,255,255,0.25); color: #fff; opacity: 1; }
 
-/* [右侧] 内容区域 (Content) */
+/* Content Column */
 .tags-content-col {
   flex-grow: 1;
   background: rgba(255, 255, 255, 0.9);
   border-radius: var(--radius);
   min-height: 400px;
-  padding: 0; /* 去掉 Padding，方便 Header 吸顶 */
+  padding: 0;
   overflow: visible;
   box-shadow: var(--shadow-md);
   border: 1px solid rgba(255,255,255,0.6);
@@ -447,10 +572,8 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
   padding: 1.5rem 2rem;
   border-bottom: 1px solid rgba(0,0,0,0.05);
   border-radius: var(--radius) var(--radius) 0 0;
-  
-  /* 列表标题吸顶逻辑 */
   position: sticky;
-  top: 80px; /* 对应 .header 的高度 */
+  top: 80px; 
   z-index: 20;
   box-shadow: 0 4px 10px rgba(0,0,0,0.03);
   backdrop-filter: blur(10px);
@@ -458,41 +581,45 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
 
 .filtered-posts { padding: 0 2rem 2rem 2rem; }
 
-/* 文章卡片 (Grid 布局解决重叠问题) */
+/* Grid Post List (Fixing overlap) */
 .filter-post-card {
   display: grid;
-  /* 定义两列：日期列固定宽度 110px，标题列自动填充 */
-  grid-template-columns: 110px 1fr; 
+  grid-template-columns: 110px 1fr; /* Fixed date width */
   align-items: baseline;
   padding: 14px 0;
   border-bottom: 1px dashed rgba(0,0,0,0.1);
-  
-  /* 关键：拉开日期和标题的间距 */
   column-gap: 30px; 
 }
-
 .filter-date { 
   font-size: 0.85rem; 
   color: #95a5a6; 
   font-family: 'Roboto Mono', monospace; 
-  text-align: right; /* 日期靠右对齐，整齐划一 */
+  text-align: right; 
   white-space: nowrap;
 }
-
 .filter-title {
   font-size: 1.15rem;
   font-weight: 600;
   color: var(--text-primary);
   margin: 0;
   line-height: 1.4;
-  grid-column: 2; /* 放在第2列 */
+  grid-column: 2;
+  display: inline-block;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  padding: 2px 4px;
+  border-radius: 6px;
 }
 
+.filter-title:hover {
+  color: var(--accent-color);
+  background: rgba(14, 88, 161, 0.06);
+  transform: translateX(6px);
+  box-shadow: var(--shadow-sm);
+}
 .filter-card-tags {
-  grid-column: 2; /* 放在第2列 (标题下方) */
+  grid-column: 2;
   margin-top: 6px;
 }
-
 .mini-tag {
   font-size: 0.75rem;
   color: var(--accent-color);
@@ -505,36 +632,42 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
   margin-top: 2px;
 }
 
-/* 移动端适配 */
-@media (max-width: 768px) {
-  .tags-layout-container { flex-direction: column; gap: 20px; }
-  .tags-sidebar-col { width: 100%; position: static; max-height: none; padding: 0; }
-  .tags-filter-list { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px; }
-  .tag-filter-item { width: auto; background: #f0f2f5; }
-  
-  #tag-results-header { position: static; padding: 1.2rem; }
-  
-  /* 移动端恢复单列布局 */
-  .filter-post-card {
-    grid-template-columns: 1fr;
-    gap: 5px;
-  }
-  .filter-date { text-align: left; font-size: 0.8rem; }
-  .filter-title { grid-column: 1; }
-  .filter-card-tags { grid-column: 1; }
-}
-   
-
-
-
 /* =========================================
-   8. Archive & Pagination
+   9. Archive, Tag Page & Pagination
    ========================================= */
 .archive-container h2.archive-year-header {
   font-weight: 300;
   color: var(--accent-dark);
   position: relative;
   display: inline-block;
+}
+.archive-link {
+  display: inline-block;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  padding: 2px 4px; /* small padding so background doesn't shift layout */
+  border-radius: 6px;
+}
+.archive-link:hover {
+  color: var(--accent-color) !important;
+  background: rgba(14, 88, 161, 0.06); /* subtle highlight */
+  transform: translateX(6px); /* slight motion for emphasis */
+  box-shadow: var(--shadow-sm);
+  border-bottom-style: solid !important;
+}
+
+/* 同步：当悬停在文章项上时，左侧日期也获得高亮反馈（与标题一致的弱背景/位移/阴影） */
+.archive-item { transition: none; }
+.archive-date {
+  transition: all 0.25s cubic-bezier(0.2,0.8,0.2,1);
+  padding: 2px 6px;
+  border-radius: 6px;
+  display: inline-block;
+}
+.archive-item:hover .archive-date {
+  background: rgba(14, 88, 161, 0.06);
+  color: var(--accent-color);
+  transform: translateX(6px);
+  box-shadow: var(--shadow-sm);
 }
 
 .pagination { margin-top: 4rem; text-align: center; }
@@ -543,7 +676,7 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
   padding: 10px 20px;
   background: #fff;
   margin: 0 6px;
-  border-radius: 50px; /* 胶囊形状 */
+  border-radius: 50px;
   box-shadow: var(--shadow-sm);
   color: var(--text-secondary);
   font-weight: 600;
@@ -553,15 +686,17 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
   color: var(--accent-color);
+  background: rgba(14, 88, 161, 0.08);
 }
 .pagination .current { 
   background: var(--accent-color); 
   color: #fff; 
-  box-shadow: 0 4px 10px rgba(69, 184, 172, 0.4);
+  box-shadow: 0 8px 20px rgba(69, 184, 172, 0.6), 0 4px 10px rgba(69, 184, 172, 0.4);
+  transform: translateY(-3px);
 }
 
 /* =========================================
-   9. Footer
+   10. Footer
    ========================================= */
 .footer {
   margin-top: 5rem;
@@ -574,12 +709,25 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
 .footer a { color: var(--text-secondary); font-weight: 500; }
 
 /* =========================================
-   10. Responsive
+   11. Responsive Design
    ========================================= */
 @media (max-width: 900px) {
   .hero-section { grid-template-columns: 1fr; height: auto; }
   .hero-main { height: 400px; }
-  .hero-sidebar { max-height: 400px; padding: 5px; }
+  /* 在较小屏幕隐藏右侧栏（由移动端容器替代） */
+  .hero-sidebar { display: none; }
+  .hero-mobile-sideposts { display: block; margin-top: 1.2rem; }
+}
+
+/* 在移动端减小顶部 Logo 的跳动幅度（防止过大位移） */
+@media (max-width: 900px) {
+  .logo:hover {
+    transform: translateY(-2px) scale(1.01);
+    text-shadow: 0 6px 14px rgba(14,88,161,0.08);
+  }
+  .logo { transition: transform 0.2s cubic-bezier(0.2,0.8,0.2,1), text-shadow 0.2s; }
+  /* 同时在触控设备上减少 nav link 的跳动幅度 */
+  .nav-menu a:hover { transform: translateY(-2px) scale(1.01); }
 }
 
 @media (max-width: 768px) {
@@ -601,12 +749,24 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
   .nav-menu.active { display: flex; }
   .nav-menu a { padding: 15px 2rem; border-bottom: 1px solid rgba(0,0,0,0.03); }
   
+  /* Stack Tags Layout */
   .tags-layout-container { flex-direction: column; gap: 20px; }
   .tags-sidebar-col { width: 100%; position: static; max-height: none; padding: 0; }
   .tags-filter-list { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px; }
   .tag-filter-item { width: auto; background: #f0f2f5; }
   #tag-results-header { position: static; padding: 1.2rem; }
   
+  /* Stack Filter Items */
+  .filter-post-card { grid-template-columns: 1fr; gap: 5px; }
+  .filter-date { text-align: left; font-size: 0.8rem; }
+  .filter-title { grid-column: 1; }
+  .filter-card-tags { grid-column: 1; }
+  
   .post-container { padding: 1.5rem; }
   .post-title { font-size: 2rem; }
+  
+  /* Post Nav Stack */
+  .post-nav { flex-direction: column; gap: 10px; }
+  .nav-item { max-width: 100%; }
+  .nav-next { text-align: left; }
 }

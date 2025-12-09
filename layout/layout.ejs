@@ -14,5 +14,32 @@
   <%- partial('_partial/footer') %>
   
   <script src="<%- url_for('js/main.js') %>"></script>
+  <script>
+    (function(){
+      function loadBgImages(){
+        var elems = document.querySelectorAll('.hero-bg');
+        elems.forEach(function(el){
+          try{
+            var bg = getComputedStyle(el).backgroundImage;
+            var m = /url\(["']?(.*?)["']?\)/.exec(bg);
+            if(m && m[1]){
+              var img = new Image();
+              img.onload = function(){ el.classList.add('is-loaded'); };
+              img.onerror = function(){ el.classList.add('is-loaded'); };
+              img.src = m[1];
+            } else {
+              // no background-image set; reveal anyway
+              el.classList.add('is-loaded');
+            }
+          }catch(e){ el.classList.add('is-loaded'); }
+        });
+      }
+      if(document.readyState === 'complete' || document.readyState === 'interactive'){
+        setTimeout(loadBgImages, 50);
+      } else {
+        document.addEventListener('DOMContentLoaded', loadBgImages);
+      }
+    })();
+  </script>
 </body>
 </html>
