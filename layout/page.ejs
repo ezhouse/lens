@@ -29,8 +29,8 @@
             <span class="tag-count"><%= site.posts.length %></span>
           </li>
           
-          <!-- 循环输出所有标签 (按名称排序) -->
-          <% site.tags.sort('name').each(function(tag){ %>
+          <!-- 循环输出所有标签 (按文章数量排序，降序) -->
+          <% site.tags.sort('length', -1).each(function(tag){ %>
             <li class="tag-filter-item" onclick="filterTags('<%= tag.name %>', this)">
               <%= tag.name %>
               <span class="tag-count"><%= tag.length %></span>
