@@ -2,7 +2,14 @@
 <div class="archive-container" style="max-width: 800px; margin: 2rem auto; padding: 0 1rem;">
   
   <% var lastYear; %>
-  
+
+  <% /* 先统计每年的文章数量，用于在年份标题后显示合计 */ %>
+  <% var counts = {}; %>
+  <% site.posts.each(function(p){ %>
+    <% var y = p.date.year(); %>
+    <% counts[y] = (counts[y] || 0) + 1; %>
+  <% }); %>
+
   <% page.posts.each(function(post){ %>
     <% var currentYear = post.date.year(); %>
     
@@ -10,6 +17,7 @@
     <% if (lastYear !== currentYear) { %>
       <h2 class="archive-year-header" style="margin: 3rem 0 1.5rem; border-bottom: 2px solid #eee; padding-bottom: 10px; font-size: 1.8rem; color: #333;">
         <%= currentYear %>
+        <span class="archive-year-count" style="font-size:0.95rem; color:#666; margin-left:10px;">（合计 <%= counts[currentYear] %> 篇）</span>
       </h2>
       <% lastYear = currentYear; %>
     <% } %>
