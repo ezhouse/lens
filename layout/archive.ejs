@@ -22,12 +22,12 @@
       <% lastYear = currentYear; %>
     <% } %>
 
-    <!-- 纯文字文章列表项 -->
+    <!-- 文章列表项：日期与标题均可点击，悬浮在日期上时标题出现跳动效果 -->
     <div class="archive-item" style="display: flex; align-items: baseline; margin-bottom: 1rem;">
-      <span class="archive-date" style="min-width: 80px; color: #999; font-family: monospace; font-size: 0.95rem;">
+      <a href="<%- url_for(post.path) %>" class="archive-date" style="min-width: 80px; color: #999; font-family: monospace; font-size: 0.95rem; text-decoration: none; cursor: pointer;">
         <%= date(post.date, 'MM-DD') %>
-      </span>
-      <a href="<%- url_for(post.path) %>" class="archive-link" style="font-size: 1.1rem; color: #333; text-decoration: none; border-bottom: 1px dashed #ccc;">
+      </a>
+      <a href="<%- url_for(post.path) %>" class="archive-link" style="font-size: 1.1rem; color: #333; text-decoration: none; border-bottom: 1px dashed #ccc; margin-left: 0.6rem;">
         <%= post.title %>
       </a>
     </div>
@@ -42,10 +42,31 @@
   </nav>
 </div>
 
-<!-- 简单的 CSS 悬停效果 -->
+<!-- 简单的 CSS 悬停与跳动效果：当悬浮在日期时，标题也会跳动 -->
 <style>
+  .archive-link {
+    display: inline-block;
+    transition: transform 180ms cubic-bezier(.2,.8,.2,1), color 120ms ease;
+  }
+
+  .archive-date {
+    text-decoration: none;
+    color: #999;
+    cursor: pointer;
+    transition: color 120ms ease;
+  }
+
+  /* 标题自身悬浮效果 */
   .archive-link:hover {
     color: var(--accent-color, #0078d4) !important;
     border-bottom-style: solid !important;
+    transform: translateY(-4px);
+  }
+
+  /* 当鼠标悬浮在日期上，使相邻的标题产生相同的跳动效果 */
+  .archive-date:hover + .archive-link {
+    color: var(--accent-color, #0078d4) !important;
+    border-bottom-style: solid !important;
+    transform: translateY(-4px);
   }
 </style>

@@ -770,3 +770,10 @@ h1, h2, h3, h4, h5, h6 { margin-top: 0; line-height: 1.2; color: var(--text-prim
   .nav-item { max-width: 100%; }
   .nav-next { text-align: left; }
 }
+
+/* Table style for site posts */
+.site-table{width:100%;border-collapse:collapse;table-layout:fixed;display:block;overflow:auto;-webkit-overflow-scrolling:touch}
+.site-table th,.site-table td{padding:8px;border-bottom:1px solid #eee;text-align:left;vertical-align:middle}
+.site-table img{width:28px;height:28px;object-fit:cover;border-radius:4px;vertical-align:middle;margin-right:8px}
+.site-table td:nth-child(2){white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px}
+.site-table td:nth-child(3){white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:40%}
