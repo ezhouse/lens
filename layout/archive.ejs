@@ -22,12 +22,12 @@
       <% lastYear = currentYear; %>
     <% } %>
 
-    <!-- 文章列表项：日期与标题均可点击，悬浮在日期上时标题出现跳动效果 -->
-    <div class="archive-item" style="display: flex; align-items: baseline; margin-bottom: 1rem;">
-      <a href="<%- url_for(post.path) %>" class="archive-date" style="min-width: 80px; color: #999; font-family: monospace; font-size: 0.95rem; text-decoration: none; cursor: pointer;">
+    <!-- 文章列表项：日期与标题为独立链接，悬浮时由父容器统一触发立体效果 -->
+    <div class="archive-item" style="display: flex; align-items: baseline; margin-bottom: 1rem; padding: 0.15rem; border-radius: 8px;">
+      <a href="<%- url_for(post.path) %>" class="archive-date" style="min-width: 80px; color: #6e6e6e; font-family: monospace; font-size: 0.95rem; text-decoration: none;">
         <%= date(post.date, 'MM-DD') %>
       </a>
-      <a href="<%- url_for(post.path) %>" class="archive-link" style="font-size: 1.1rem; color: #333; text-decoration: none; border-bottom: 1px dashed #ccc; margin-left: 0.6rem;">
+      <a href="<%- url_for(post.path) %>" class="archive-link" style="font-size: 1.08rem; color: #262626; text-decoration: none; border-bottom: 1px dashed #ccc; margin-left: 0.8rem;">
         <%= post.title %>
       </a>
     </div>
@@ -44,29 +44,49 @@
 
 <!-- 简单的 CSS 悬停与跳动效果：当悬浮在日期时，标题也会跳动 -->
 <style>
+  /* 将立体悬停效果作用到父容器，以便悬浮在日期或标题上时效果一致 */
+  .archive-item {
+    transition: transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms cubic-bezier(.2,.9,.2,1);
+    will-change: transform, box-shadow;
+    box-shadow: 0 6px 18px rgba(2,6,23,0.04), 0 1px 3px rgba(2,6,23,0.03);
+    background: transparent;
+  }
+
+  .archive-item:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 20px 48px rgba(2,12,45,0.14), 0 6px 18px rgba(2,8,20,0.06);
+  }
+
+  .archive-date,
   .archive-link {
     display: inline-block;
-    transition: transform 180ms cubic-bezier(.2,.8,.2,1), color 120ms ease;
+    vertical-align: middle;
+    transition: color 140ms ease, transform 180ms cubic-bezier(.2,.8,.2,1);
   }
 
   .archive-date {
-    text-decoration: none;
-    color: #999;
-    cursor: pointer;
-    transition: color 120ms ease;
+    min-width: 80px;
+    color: #6e6e6e;
+    font-family: monospace;
+    font-size: 0.95rem;
   }
 
-  /* 标题自身悬浮效果 */
-  .archive-link:hover {
-    color: var(--accent-color, #0078d4) !important;
-    border-bottom-style: solid !important;
-    transform: translateY(-4px);
+  .archive-link {
+    margin-left: 0.8rem;
+    font-size: 1.08rem;
+    color: #262626;
+    border-bottom: 1px dashed #ccc;
   }
 
-  /* 当鼠标悬浮在日期上，使相邻的标题产生相同的跳动效果 */
-  .archive-date:hover + .archive-link {
-    color: var(--accent-color, #0078d4) !important;
-    border-bottom-style: solid !important;
-    transform: translateY(-4px);
+  /* 悬停父容器时，让日期与标题获得同样的微位移与高亮颜色 */
+  .archive-item:hover .archive-date,
+  .archive-item:hover .archive-link {
+    color: var(--accent-color, #549fd8) !important;
+    transform: translateY(-2px);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .archive-date { color: #a9a9a9; }
+    .archive-link { color: #e6e6e6; border-bottom-color: rgba(255,255,255,0.08); }
   }
 </style>
