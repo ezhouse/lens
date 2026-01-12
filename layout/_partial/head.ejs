@@ -5,3 +5,15 @@
 <link rel="stylesheet" href="<%- url_for('css/style.css') %>">
 <!-- 引入 Google Fonts (Open Sans 或 Roboto) -->
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
+<!-- MathJax: 支持高兼容性的 LaTeX 渲染 -->
+<script>
+window.MathJax = {
+	tex: {
+		inlineMath: [['$', '$'], ['\\(', '\\)']],
+		packages: ['base']
+	},
+	svg: { fontCache: 'global' }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
